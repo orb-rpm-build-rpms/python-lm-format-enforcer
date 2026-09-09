@@ -45,7 +45,10 @@ Summary:        %{summary}
 
 
 %check
-%pyproject_check_import
+# The integrations.* plugins and analyzer import optional heavy frameworks
+# (torch, vllm, transformers, ...) only meant to be present when the user has
+# that framework installed; skip them in the build-time import check.
+%pyproject_check_import -e '*.integrations.*' -e '*.analyzer'
 
 
 %files -n python3-lm-format-enforcer -f %{pyproject_files}
